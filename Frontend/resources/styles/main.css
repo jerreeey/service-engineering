@@ -1,0 +1,20 @@
+@import 'modules/variables.css';
+
+/* first for specifity */
+@import 'modules/reset.css';
+@import 'modules/fonts.css';
+@import 'modules/layout.css';
+@import 'modules/icons.css';
+@import 'modules/color-icon.css';
+@import 'modules/misc.css';
+
+/* order shouldn't matter with the following modules */
+@import 'modules/breadcrumb.css';
+@import 'modules/spacer.css';
+@import 'modules/form.css';
+@import 'modules/navigation.css';
+
+/* last for specifity */
+@import 'modules/hacks.css';
+@import 'modules/stack.css';
+@import 'modules/utils.css';
