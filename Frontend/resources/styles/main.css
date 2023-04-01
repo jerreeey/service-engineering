@@ -7,6 +7,7 @@
 @import 'modules/icons.css';
 @import 'modules/color-icon.css';
 @import 'modules/misc.css';
+@import 'modules/container.css';
 
 /* order shouldn't matter with the following modules */
 @import 'modules/breadcrumb.css';
@@ -15,6 +16,8 @@
 @import 'modules/navigation.css';
 @import 'modules/teaser.css';
 @import 'modules/booking.css';
+@import 'modules/profile.css';
+@import 'modules/map.css';
 
 /* last for specifity */
 @import 'modules/hacks.css';

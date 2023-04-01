@@ -2,7 +2,7 @@
 <div class="spacer">
     <div class="stack stack--justify-space-between stack5">
     <h1>Book car</h1>
-    <div class="searchbar stack stack--row stack--justify-space-between">
+    <div class="container searchbar stack stack--row stack--justify-space-between">
         <div class=" stack stack--row stack--justify-space-between">
             <label class="stack" for="pickUpDate">Pick up date
                 <input id="pickUpDate" type="date">
@@ -32,7 +32,7 @@
                 <div class="stack stack--row stack--justify-space-between">
                     <span>Price per day:</span>
                     <div>
-                        <span></span>
+                        <span class="price">{{ car.price }}</span>
                         <select name="currency">
                             <option>USD</option>
                         </select>
