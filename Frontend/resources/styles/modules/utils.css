@@ -68,6 +68,10 @@
   font-weight: bold;
 }
 
+.u--text-600 {
+  font-weight: 600;
+}
+
 .u--text-size-rem6 {
   font-size: var(--rem6);
 }

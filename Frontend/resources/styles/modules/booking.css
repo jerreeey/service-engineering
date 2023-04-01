@@ -1,0 +1,29 @@
+.booking_container{
+    border: 1px solid var(--color-contrast);
+    padding: var(--em5);
+    font-size: var(--rem0);
+    width: 25rem;
+}
+
+.booking_container h2{
+    margin-top: 0;
+    color: var(--color-contrast);
+    font-weight: 600;
+    margin-bottom: var(--em-4);
+}
+.booking_container select{
+    width: auto;
+    font-size: var(--rem-1);
+}
+
+.booking_row{
+    margin: var(--em8) 0;
+}
+
+.booking_summary{
+    border-top: 2px solid var(--color-contrast-strong);
+    padding-top: var(--em0)
+}
+.stack.booking_row > * + * {
+    --stack-space: 12rem;
+  }

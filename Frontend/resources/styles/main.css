@@ -13,6 +13,8 @@
 @import 'modules/spacer.css';
 @import 'modules/form.css';
 @import 'modules/navigation.css';
+@import 'modules/teaser.css';
+@import 'modules/booking.css';
 
 /* last for specifity */
 @import 'modules/hacks.css';

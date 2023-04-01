@@ -1,0 +1,70 @@
+.button{
+    display: block;
+    text-align: center;
+    padding: var(--em-8);
+    border-radius: 5px;
+    font-size: var(--rem0);
+    cursor: pointer;
+  }
+
+  .button--primary{
+    background-color: var(--color-button-primary);
+    color: var(--color-background);
+    border: none;
+  }
+
+  .button--secondary{
+    background-color: var(--color-background);
+    color: var(--color-button-primary);
+    box-shadow:inset 0px 0px 0px 2px var(--color-button-primary);
+    box-sizing: border-box;
+
+  }
+
+  .button_navigation{
+    width: 9em;
+  }
+
+  .button_login{
+    width: 11em;
+  }
+
+.searchbar{
+    border: 3px solid var(--color-headline);
+    padding-bottom: var(--em2);
+    padding-top: var(--em-2);
+    padding-left: var(--em3);
+    padding-right: var(--em3);
+  }
+  
+  .searchbar input{
+    height: var(--rem6);
+    margin-top: var(--em-5);
+  }
+
+  .searchbar input[type=time]{
+    width: 10rem;
+  }
+  
+  .searchbar button{
+    width: 10rem;
+    height: var(--rem6);
+    margin-block-start: auto!important;
+  }
+
+.form_login{
+    border: 2px solid var(--color-contrast-medium);
+    padding: var(--em5) var(--em7);
+    width: 35em;
+}
+
+.form_login .h2{
+    margin-top: 0;
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.form_login input{
+    width: auto;
+    
+}
