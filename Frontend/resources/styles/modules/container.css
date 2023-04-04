@@ -1,0 +1,21 @@
+.container{
+    border: 3px solid var(--color-headline);
+    padding-bottom: var(--em2);
+    padding-top: var(--em-2);
+    padding-left: var(--em3);
+    padding-right: var(--em3);
+  }
+  
+  .container input{
+    height: var(--rem6);
+    margin-top: var(--em-5);
+  }
+
+  .container input[type=time]{
+    width: 10rem;
+  }
+  
+  .container .button{
+    width: 10rem;
+    height: var(--rem6);
+  }

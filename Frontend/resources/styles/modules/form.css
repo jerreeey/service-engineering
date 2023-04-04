@@ -1,0 +1,82 @@
+.button{
+    display: block;
+    text-align: center;
+    padding: var(--em-8);
+    border-radius: 5px;
+    font-size: var(--rem0);
+    cursor: pointer;
+  }
+
+  .button--primary{
+    background-color: var(--color-button-primary);
+    color: var(--color-background);
+    border: none;
+  }
+
+  .button--secondary{
+    background-color: var(--color-background);
+    color: var(--color-button-primary);
+    box-shadow:inset 0px 0px 0px 2px var(--color-button-primary);
+    box-sizing: border-box;
+
+  }
+
+  .button--delete{
+    background-color: var(--color-button-delete);
+    color: var(--color-background);
+  }
+
+  .button_navigation{
+    width: 9em;
+  }
+
+  .button_login{
+    width: 11em;
+  }
+  
+  .searchbar button{
+    margin-block-start: auto!important;
+  }
+
+  .overviewbar{
+    padding: var(--em2);
+  }
+
+  .overviewbar .h6{
+    margin-top: 0;
+    color: var(--color-contrast);
+  }
+
+  .overviewbar div:not(.returned){
+   width: 20rem;
+  }
+
+  .overviewbar .returned{
+    align-self: center;
+    margin-inline-start: auto;
+  }
+  .returned span{
+    font-size: var(--rem-1);
+    font-weight: 600;
+  }
+  .returned{
+    width: 10rem;
+    text-align: center;
+  }
+
+.form_login{
+    border: 2px solid var(--color-contrast-medium);
+    padding: var(--em5) var(--em7);
+    width: 35em;
+}
+
+.form_login .h2{
+    margin-top: 0;
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.form_login input{
+    width: auto;
+    
+}

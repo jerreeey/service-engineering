@@ -1,0 +1,8 @@
+.teaser{
+    margin-top: 15rem;
+}
+.teaser_headline{
+    font-size: var(--rem7);
+    width: 45rem;
+    align-self: center;
+}

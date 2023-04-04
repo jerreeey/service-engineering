@@ -72,6 +72,7 @@
   --color-declaration-black: #000;
   --color-declaration-lighter-black: #525252;
   --color-declaration-brand: #18A0FB;
+  --color-declaration-red: #E00200;
 
   --color-accent: var(--color-declaration-brand);
   --color-text: var(--color-declaration-black);
@@ -85,6 +86,7 @@
   --color-headline: var(--color-declaration-brand);
   --color-navigation: var(--color-declaration-brand);
   --color-button-primary: var(--color-declaration-brand);
+  --color-button-delete: var(--color-declaration-red);
 
   /* fonts */
   --font-declaration-sans: 'Verdana';

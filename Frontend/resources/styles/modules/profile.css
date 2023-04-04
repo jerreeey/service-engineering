@@ -1,0 +1,29 @@
+
+.profile div div{
+    width: 18rem;
+}
+.profile h2{
+    width: 8rem;
+}
+.profile .button:not(.button--delete){
+    margin-inline-start: auto;
+}
+.profile .button{
+    width: 10rem;
+    height: var(--rem5);
+}
+.profile div{
+    align-items: flex-end;
+}
+.profile .h6{
+    font-size: var(--rem2);
+    font-weight: 600;
+    color: var(--color-contast);
+}
+.profile input{
+    margin-top: var(--em-3);
+
+}
+.profile label{
+    font-weight: 600;
+}
