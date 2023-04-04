@@ -104,12 +104,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config" />
-    <Content Include="WebService1.asmx" />
+    <Content Include="CurrencyConverterWS.asmx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\CurrencyConverterLogic\CurrencyConverter.cs" />
+    <Compile Include="Classes\HttpClientWrapper.cs" />
+    <Compile Include="Classes\IHttpClient.cs" />
+    <Compile Include="Classes\ReferenceRateProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebService1.asmx.cs">
-      <DependentUpon>WebService1.asmx</DependentUpon>
+    <Compile Include="CurrencyConverterWS.asmx.cs">
+      <DependentUpon>CurrencyConverterWS.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
@@ -123,6 +127,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
