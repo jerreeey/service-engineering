@@ -20,7 +20,16 @@
 </template>
 
 <script setup>
-import {ref} from "vue"
-const loggedIn = ref(true)
+import {ref, computed} from "vue"
+import store from "./store"
+import router from "./router/router.js"
+
+const loggedIn = computed(() => {
+    return store.state.auth.status.loggedIn
+})
+function logout(){
+      store.dispatch('auth/logout');
+      router.push('/login');
+}
 </script>
 

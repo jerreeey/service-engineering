@@ -5,6 +5,7 @@ import Overview from '../routes/Overview.vue'
 import Profile from '../routes/Profile.vue'
 import Login from '../routes/Login.vue'
 import Register from '../routes/Register.vue'
+import store from '../store'
 
 const routes = [
   {
@@ -43,11 +44,17 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login,
+    meta: {
+      requiresGuest: true
+    }
   },
   {
     path: '/register',
     name: 'register',
-    component: Register
+    component: Register,
+    meta: {
+      requiresGuest: true
+    }
   }
 ]
 
@@ -56,8 +63,25 @@ const router = createRouter({
   routes,
 })
 
-router.afterEach(async () => {
-  // store.dispatch('updateStateFromUrl')
-})
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (store.state.auth.status.loggedIn) {
+      next()
+    } else{
+      router.push({ path: '/login' })
+    }
+  } 
+
+  if (to.matched.some((record) => record.meta.requiresGuest)) {
+    if (store.state.auth.status.loggedIn) {
+      router.push({ path: '/' })
+    } else{
+      next()
+    }
+  } 
+
+}
+
+)
 
 export default router

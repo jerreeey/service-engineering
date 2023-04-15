@@ -60,6 +60,11 @@
 
 <script setup>
 import {ref} from "vue"
+
+import CarService from "../services/car.service.js"
+
+const test= CarService.getAvailableCars()
+console.log(test)
 const cars = ref([
     {
         name: "VW",
