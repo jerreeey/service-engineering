@@ -13,7 +13,7 @@ import java.util.Date;
 public class Bookings {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_generator")
-    @SequenceGenerator(name = "booking_generator", sequenceName = "booking_seq", allocationSize = 1)
+    @SequenceGenerator(name = "booking_generator", sequenceName = "booking_seq", allocationSize = 1, initialValue = 6)
     private int bookingId;
 
     @ManyToOne

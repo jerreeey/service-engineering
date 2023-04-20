@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class BookingsDTO {
 
+    private int bookingId;
+
     private int userId;
 
     private int carId;
@@ -18,4 +20,6 @@ public class BookingsDTO {
     private String returnDate;
 
     private String returnHour;
+
+    private boolean returned;
 }

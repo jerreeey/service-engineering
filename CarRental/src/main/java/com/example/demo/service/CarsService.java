@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.DTO.BookingsDTO;
 import com.example.demo.DTO.CarsDTO;
 import com.example.demo.entity.Bookings;
 import com.example.demo.entity.Cars;
