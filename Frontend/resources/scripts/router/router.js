@@ -1,37 +1,54 @@
 import { createWebHashHistory, createRouter } from 'vue-router'
-import Home from '../routes/Home.vue'
 import Booking from '../routes/Booking.vue'
 import MapComponent from '../routes/Map.vue'
 import Overview from '../routes/Overview.vue'
 import Profile from '../routes/Profile.vue'
-//import store from '../store/store'
+import Login from '../routes/Login.vue'
+import Register from '../routes/Register.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: Home
-  },
-  {
-    path: '/booking',
     name: 'booking',
-    component: Booking
+    component: Booking,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/map',
     name: 'map',
-    component: MapComponent
+    component: MapComponent,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/profile',
     name: 'profile',
-    component: Profile
+    component: Profile,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/overview',
     name: 'overview',
-    component: Overview
+    component: Overview,
+    meta: {
+      requiresAuth: true
+    }
   },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login,
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: Register
+  }
 ]
 
 const router = createRouter({
