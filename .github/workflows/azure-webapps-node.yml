@@ -39,6 +39,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ env.NODE_VERSION }}
+        cache-dependency-path: "./blog/package-lock.json"
         cache: 'npm'
 
     - name: npm install, build, and test
