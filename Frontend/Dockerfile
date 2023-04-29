@@ -8,7 +8,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --prefix frontend
+
 
 # Copy the rest of the application code to the container
 COPY . .
