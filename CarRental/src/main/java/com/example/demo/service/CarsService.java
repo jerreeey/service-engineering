@@ -41,6 +41,9 @@ public class CarsService {
             availableCars.addAll(result.stream().map(Bookings::getCar).distinct().toList());
         }
         //todo put available cars from Dollar in currency converter and return with selected currency
+
+
+
         availableCars.forEach(car -> carsDTOS.add(convertCarToCarDTO(car)));
         return carsDTOS;
     }
