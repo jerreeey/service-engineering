@@ -116,10 +116,13 @@
       <DependentUpon>CurrencyConverterWS.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UserCredentials.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\Currencyconvert - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\CurrencyConverterCarRental - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
