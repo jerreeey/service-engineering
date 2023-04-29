@@ -27,6 +27,3 @@
 .stack.booking_row > * + * {
     --stack-space: 12rem;
   }
-.booking_container .price{
-    margin-right: var(--em-3);
-}

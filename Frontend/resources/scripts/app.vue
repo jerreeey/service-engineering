@@ -1,4 +1,5 @@
 <template>
+
     <div class="navigation">
     <nav class="spacer stack stack--row stack--justify-space-between">
         <ul class="u--list-style-none stack stack--row stack--justify-space-between stack6">
@@ -15,12 +16,15 @@
     </nav>
     </div>
     <main>
+        <Suspense>
         <router-view></router-view>
+    </Suspense>
     </main>
+
 </template>
 
 <script setup>
-import {ref, computed} from "vue"
+import {ref, computed, Suspense} from "vue"
 import store from "./store"
 import router from "./router/router.js"
 

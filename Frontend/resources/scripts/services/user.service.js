@@ -1,13 +1,13 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'https://6422e31877e7062b3e255693.mockapi.io/api/v1/users';
-const API_URL2 = 'https://6422e31877e7062b3e255693.mockapi.io/api/v1/sessions';
+const API_URL = 'https://app-carrental-230415231716.azurewebsites.net/users';
+const API_URL2 = 'https://app-carrental-230415231716.azurewebsites.net/authentications';
 
 class UserService {
   login(user) {
     return axios
-      .post(API_URL + '/', {
+      .post(API_URL2 + '/sessions', {
         email: user.email,
         password: user.password
       })
@@ -15,17 +15,17 @@ class UserService {
         if (response.data.token) {
           localStorage.setItem('user', JSON.stringify(response.data));
         }
-
         return response.data;
       });
   }
+
 
   logout() {
     localStorage.removeItem('user');
   }
 
   register(user) {
-    return axios.post(API_URL, {
+    return axios.post(API_URL2, {
       email: user.email,
       password: user.password
     });
@@ -33,7 +33,6 @@ class UserService {
 
   delete(user) {
     return axios.delete(API_URL + '/' + user.id, {
-      id: user.id
     },
     {
       headers: authHeader()
@@ -47,9 +46,9 @@ class UserService {
     });
   }
 
-  changePassword(user) {
+  changePassword(user, newPassword) {
     return axios.put(API_URL + '/' + user.id, {
-      password: user.password
+      password: newPassword
     },
     {
       headers: authHeader()
@@ -63,9 +62,9 @@ class UserService {
     });
   }
 
-  changeEmail(user) {
+  changeEmail(user, newEmail) {
     return axios.put(API_URL + '/' + user.id, {
-      email: user.email
+      email: newEmail
     },
     {
       headers: authHeader()

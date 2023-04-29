@@ -1,12 +1,13 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'https://6422e31877e7062b3e255693.mockapi.io/api/v1/cars';
+const API_URL = 'https://app-carrental-230415231716.azurewebsites.net/cars';
 class CarService {
-  getAvailableCars(pickUpDate,pickUpHour,returnDate,returnHour, currency) {
-    axios.get(API_URL + '?pickUpDate=' + pickUpDate + '?pickUpHour=' + pickUpHour+ '?returnDate=' + returnDate +'?returnHour=' + returnHour+'?currency='+currency, {
+ async getAvailableCars(pickUpDate,pickUpHour,returnDate,returnHour, currency) {
+    return await axios.get(API_URL + '?pickupdate=' + pickUpDate + '?pickuphour=' + pickUpHour+ '?returndate=' + returnDate +'?returnhour=' + returnHour+'?currency='+currency, {
         headers: authHeader()
-    }).then((response) => console.log(response.data))
+    }).then((response) => {
+      return response.data})
   }
 }
 

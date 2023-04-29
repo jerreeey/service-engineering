@@ -1,8 +1,9 @@
-.teaser{
-    margin-top: 15rem;
+.teaser.stack:only-child{
+    block-size: calc(100vh - 3em);
+    align-items: center;
 }
 .teaser_headline{
-    font-size: var(--rem7);
+    font-size: var(--rem6);
     width: 45rem;
     align-self: center;
 }

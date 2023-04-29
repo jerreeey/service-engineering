@@ -6,12 +6,12 @@
     padding-right: var(--em3);
   }
   
-  .container input{
+  .container input, .container select{
     height: var(--rem6);
     margin-top: var(--em-5);
   }
 
-  .container input[type=time]{
+  .container input[type=time],.container input[type=date], .container select{
     width: 10rem;
   }
   

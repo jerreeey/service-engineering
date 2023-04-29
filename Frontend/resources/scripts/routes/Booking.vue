@@ -16,8 +16,41 @@
             <label class="stack">Return time
                 <input id="returnTime" type="time">
             </label>
+            <label class="stack">Currency
+                <select id="currency">
+                    <option>USD</option>
+                    <option>JPY</option>
+                    <option>BGN</option>
+                    <option>CZK</option>
+                    <option>DKK</option>
+                    <option>EUR</option>
+                    <option>GBP</option>
+                    <option>HUF</option>
+                    <option>PLN</option>
+                    <option>RON</option>
+                    <option>SEK</option>
+                    <option>CHF</option>
+                    <option>ISK</option>
+                    <option>NOK</option>
+                    <option>TRY</option>
+                    <option>BRL</option>
+                    <option>CAD</option>
+                    <option>CNY</option>
+                    <option>HKD</option>
+                    <option>ILS</option>
+                    <option>INR</option>
+                    <option>KRW</option>
+                    <option>MXN</option>
+                    <option>MYR</option>
+                    <option>NZD</option>
+                    <option>PHP</option>
+                    <option>SGD</option>
+                    <option>THB</option>
+                    <option>ZAR</option>
+                </select>
+            </label>
         </div>
-        <button class="button button--primary" type="text">Search</button>
+        <button class="button button--primary"  @click="getCars">Search</button>
     </div>
     </div>
     <div :key="i" v-for="i in Math.ceil(cars.length / 3)" class="booking_row stack stack--row stack5">
@@ -32,10 +65,7 @@
                 <div class="stack stack--row stack--justify-space-between">
                     <span>Price per day:</span>
                     <div>
-                        <span class="price">{{ car.price }}</span>
-                        <select name="currency">
-                            <option>USD</option>
-                        </select>
+                        <span>{{ car.pricePerDay }} {{ car.currency }}</span>
                     </div>
                 </div>
             </div>
@@ -47,66 +77,49 @@
                 <div class="stack stack--row stack--justify-space-between">
                     <span class="u--text-600">Total price:</span>
                     <div>
-                        <span>30 USD</span>
+                        <span>{{ car.totalPrice }} {{ car.currency }}</span>
                     </div>
                 </div>
             </div>
         </div>
-            <button class="button button--primary" type="text">Book</button>
+            <button class="button button--primary" v-bind:value="car.id" @click="addBooking(car.id, car.pickUpDate, car.pickUpHour, car.returnDate, car.returnHour)" type="text">Book</button>
         </div>
     </div>
 </div>
 </template>
 
 <script setup>
-import {ref} from "vue"
-
 import CarService from "../services/car.service.js"
+import BookingService from "../services/booking.service.js"
+import {ref} from 'vue'
 
-const test= CarService.getAvailableCars()
-console.log(test)
-const cars = ref([
-    {
-        name: "VW",
-        model: "Golf",
-        price: 20,
-        year: "2010",
+var options = { day: '2-digit', year: 'numeric', month: '2-digit' };
+let date = new Date().toLocaleDateString("de-DE", options)
+let endDate = "23.12.2023"
+let hour = "10:00"
 
-    },
-    {
-        name: "Ferrari",
-        model: "Golf",
-        price: 20,
-        year: "2010",
+let cars = ref(await CarService.getAvailableCars(date, hour, endDate, hour, "USD").then(response => {
+    return response
+})
+)
 
-    },
-    {
-        name: "Toyota",
-        model: "Golf",
-        price: 20,
-        year: "2010",
+let userid = JSON.parse(localStorage.getItem('user')).id;
 
-    },
-    {
-        name: "Toyota",
-        model: "Golf",
-        price: 20,
-        year: "2010",
+async function getCars(){
+    let pickUpDate = new Date(document.getElementById('pickUpDate').value).toLocaleDateString("de-DE", options)
+    let pickUpTime = document.getElementById('pickUpTime').value
+    let returnDate = new Date(document.getElementById('returnDate').value).toLocaleDateString("de-DE", options)
+    let returnTime = document.getElementById('returnTime').value
+    let currency = document.getElementById('currency').value
 
-    },
-    {
-        name: "Toyota",
-        model: "Golf",
-        price: 20,
-        year: "2010",
+    cars.value = await CarService.getAvailableCars(pickUpDate, pickUpTime, returnDate, returnTime, currency).then(response => {
+        return response
+    })
+}
 
-    },
-    {
-        name: "Toyota",
-        model: "Golf",
-        price: 20,
-        year: "2010",
-
-    }
-])
+async function addBooking(carid, pickUpDate,pickUpHour,returnDate,returnHour){
+    await BookingService.addBooking(carid, userid, pickUpDate,pickUpHour,returnDate,returnHour).then(response => {
+        return response
+    })
+}
 </script>
