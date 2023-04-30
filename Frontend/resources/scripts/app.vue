@@ -29,6 +29,9 @@ import store from "./store"
 import router from "./router/router.js"
 
 const loggedIn = computed(() => {
+    if(localStorage.getItem('token')){
+        store.state.auth.status.loggedIn = true
+    }
     return store.state.auth.status.loggedIn
 })
 function logout(){

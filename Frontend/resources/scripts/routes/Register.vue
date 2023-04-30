@@ -2,7 +2,7 @@
     <div class="teaser spacer stack stack--row stack--justify-space-between">
         <p class="teaser_headline">The largest community of car enthusiasts</p>
         <div class="stack form_login">
-            <h1 class="h2">Sign in</h1>
+            <h1 class="h2">Sign up</h1>
             <label for="email_register">Email address</label>
             <input id="email_register" type="email">
             <label for="password_register">Password</label>
@@ -30,10 +30,8 @@ function register(){
     if (email != "" && password != "" &&  repeatedPassword != "" && password == repeatedPassword) {
         user.email = email
         user.password = password
-        console.log(user)
         store.dispatch('auth/register', user).then(
             () => {
-                console.log(store.state.auth.user)
                 error.value = ""
                 router.push('/login');
             },

@@ -32,22 +32,29 @@
 <script setup>
 import {ref} from 'vue'
 import userService from '../services/user.service'
-
-let user = ref(JSON.parse(localStorage.getItem('user')))
+let user = ref(JSON.parse(localStorage.getItem('user')).userDTO)
+console.log(user.value)
 
 async function changePassword(){
     let newPassword = document.getElementById('edit_password')
-    return await userService.changePassword(userid, newPassword).then(response => {return response})
+    return await userService.changePassword(user.value, newPassword).then(response => {        
+        user.value = JSON.parse(localStorage.getItem('user')).userDTO
+        document.getElementById('edit_password').value = ""
+        document.getElementById('edit_repeatPassword').value = ""
+    })
 }
 
 async function changeEmail(){
     let newEmail = document.getElementById('edit_email').value
-    return await userService.changeEmail(user.value, newEmail).then(response => user.value = JSON.parse(localStorage.getItem('user')))
+    return await userService.changeEmail(user.value, newEmail).then(response => {
+
+        user.value = JSON.parse(localStorage.getItem('user')).userDTO
+        document.getElementById('edit_email').value = ""
+    })
 }
 
 async function deleteUser(){
-    return await userService.delete(user.value).then(response => userService.logout)
+    return await userService.delete(user.value).then(response => {})
 }
-
 
 </script>

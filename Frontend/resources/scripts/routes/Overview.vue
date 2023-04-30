@@ -5,15 +5,11 @@
     <div class="container overviewbar stack stack--row" :key="`booking_${index}`" v-for="(booking,index) in  bookings">
             <div>
                 <h2 class="stack h6">Car</h2>
-                <span>{{booking.name}} - {{ booking.model }}</span>
-            </div>
-            <div>
-                <h2 class="stack h6">Year</h2>
-                <span>{{booking.year}}</span>
+                <span>{{booking.make}} - {{ booking.model }}</span>
             </div>
                 <div>                
                     <h2 class="stack h6">Pick up date</h2>
-                    <span>{{booking.pickUpDate}} {{ booking.pickupHour }}</span>
+                    <span>{{booking.pickupDate}} {{ booking.pickupHour }}</span>
                 </div>
                 <div>
                     <h2 class="stack h6">Return date</h2>
@@ -21,7 +17,7 @@
                 </div>
 
             <div class="returned">
-            <button v-if="!booking.returned" class="button button--primary returned" v-bind:value="booking.id" @click="returnCar(booking.id)" type="submit">Return</button>
+            <button v-if="!booking.returned" class="button button--primary returned" v-bind:value="booking.bookingId" @click="returnCar(booking.bookingId)" type="submit">Return</button>
             <span  v-else>Already returned</span>
             </div>
         </div>
@@ -34,15 +30,14 @@
 <script setup>
 import {ref} from "vue"
 import BookingService from "../services/booking.service"
+import store from '../store'
 
-
-let userid = JSON.parse(localStorage.getItem('user')).id
+let userid = store.state.auth.user.userDTO.userId;
 
 let bookings = ref(await BookingService.getBookings(userid).then(response => {
     return response
 }))
 
-console.log(bookings.value)
 
 async function returnCar(bookingid){
     await BookingService.returnCar(bookingid).then(response => {

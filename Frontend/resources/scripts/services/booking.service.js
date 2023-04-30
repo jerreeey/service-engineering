@@ -10,19 +10,22 @@ class BookingService {
   }
 
   async addBooking(carid, userid, pickUpDate,pickUpHour,returnDate,returnHour) {
-    return await axios.post(API_URL + '/',{
-      headers: authHeader(),
+    return await axios.post(API_URL,{
       carId: carid,
       userId: userid,
       pickupDate: pickUpDate,
       pickupHour: pickUpHour,
       returnDate: returnDate,
-      returnHour: returnHour
+      returnHour: returnHour,
+      returned: false
+    },
+    {
+      headers: authHeader(),
     }).then((response) => {return response.status}) 
   }
 
   async returnCar(bookingId) {
-    return await axios.put(API_URL + '/' + bookingId, {
+    return await axios.put(API_URL + '/' + bookingId, {},{
         headers: authHeader(),
     }).then((response) => {return response.data})
   }
