@@ -30,8 +30,8 @@ public class BookingsRestController {
         }
     }
 
-    @GetMapping("/user/{userId}")
-    public List<BookingsDTO> findUser(@PathVariable("userId") int userId) {
+    @GetMapping("/users/{userId}")
+    public List<BookingsDTO> findBookingsByUserId(@PathVariable("userId") int userId) {
         //return user with id
         return bookingsService.findBookingsByUserId(userId);
     }

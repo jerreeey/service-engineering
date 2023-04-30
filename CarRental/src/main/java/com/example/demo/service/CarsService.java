@@ -37,8 +37,10 @@ public class CarsService {
         List<Cars> availableCars = new ArrayList<>();
         for (Cars car: cars) {
             Set<Bookings> bookings = car.getBookings();
-            List<Bookings> result = bookings.stream().filter(b -> isNotInRange(b.getStartDate(), pickupDate, returnDate) && isNotInRange(b.getEndDate(), pickupDate, returnDate)).toList();
-            availableCars.addAll(result.stream().map(Bookings::getCar).distinct().toList());
+            boolean carAvailable = bookings.stream().allMatch(b -> isNotInRange(b.getStartDate(), pickupDate, returnDate) && isNotInRange(b.getEndDate(), pickupDate, returnDate));
+            if(carAvailable) {
+                availableCars.add(car);
+            }
         }
         //todo put available cars from Dollar in currency converter and return with selected currency
         availableCars.forEach(car -> carsDTOS.add(convertCarToCarDTO(car)));
