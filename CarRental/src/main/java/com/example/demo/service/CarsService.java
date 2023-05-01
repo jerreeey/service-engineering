@@ -38,7 +38,7 @@ public class CarsService {
         List<Cars> availableCars = new ArrayList<>();
         for (Cars car : cars) {
             Set<Bookings> bookings = car.getBookings();
-            boolean carAvailable = bookings.stream().allMatch(b -> isNotInRange(b.getStartDate(), pickupDate, returnDate) && isNotInRange(b.getEndDate(), pickupDate, returnDate));
+            boolean carAvailable = bookings.stream().allMatch(b -> isNotInRange(b.getStartDate(), pickupDate, returnDate) && isNotInRange(b.getEndDate(), pickupDate, returnDate) || (b.getReturned()));
             if (carAvailable) {
                 availableCars.add(car);
             }
