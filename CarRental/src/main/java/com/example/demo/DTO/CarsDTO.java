@@ -4,6 +4,7 @@ import com.example.demo.entity.Bookings;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Getter
@@ -20,7 +21,7 @@ public class CarsDTO {
 
     private String currency;
 
-    private int dailyRate;
+    private BigDecimal dailyRate;
 
     private Set<Bookings> bookings;
 }

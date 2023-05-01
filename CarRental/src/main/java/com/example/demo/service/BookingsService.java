@@ -84,6 +84,9 @@ public class BookingsService {
         bookingsDTO.setReturnDate(endDate);
         bookingsDTO.setReturnHour(endTime);
         bookingsDTO.setReturned(booking.getReturned());
+        bookingsDTO.setMake(booking.getCar().getMake());
+        bookingsDTO.setModel(booking.getCar().getModel());
+        bookingsDTO.setYear(booking.getCar().getYear());
         return bookingsDTO;
     }
 
