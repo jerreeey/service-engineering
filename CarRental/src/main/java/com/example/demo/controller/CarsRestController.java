@@ -21,7 +21,6 @@ public class CarsRestController {
 
     @GetMapping
     public ResponseEntity<List<CarsDTO>> findCars(@RequestParam String pickupdate, @RequestParam String pickuphour, @RequestParam String returndate, @RequestParam String returnhour, @RequestParam String currency) throws ParseException {
-        //return all cats with selected currency where no booking is between pickup and return + hours
         return ResponseEntity.ok(carsService.findCars(pickupdate, pickuphour, returndate, returnhour, currency));
     }
 }

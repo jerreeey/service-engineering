@@ -2,11 +2,12 @@ package com.example.demo.entity;
 
 import com.example.demo.controller.security.auth.enumeration.TokenType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
 @Builder

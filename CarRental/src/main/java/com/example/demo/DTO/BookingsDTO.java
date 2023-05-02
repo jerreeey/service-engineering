@@ -22,4 +22,10 @@ public class BookingsDTO {
     private String returnHour;
 
     private boolean returned;
+
+    private String make;
+
+    private String model;
+
+    private String year;
 }

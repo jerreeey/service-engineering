@@ -7,9 +7,7 @@ import com.example.demo.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -20,16 +18,6 @@ public class UsersService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-
-    @Transactional
-    public UsersDTO save(UsersDTO usersDTO) {
-        Users user = new Users();
-        user.setEmail(usersDTO.getEmail());
-        user.setPassword(usersDTO.getPassword());
-        user.setBookings(new HashSet<>());
-        user = usersRepository.save(user);
-        return convertUserToUserDTO(usersRepository.findUserByUserId(user.getUserId()));
-    }
 
     private UsersDTO convertUserToUserDTO(Users user) {
         UsersDTO usersDTO = new UsersDTO();
@@ -47,5 +35,14 @@ public class UsersService {
             return convertUserToUserDTO(savedUser);
         }
         throw new UserNotFoundException("User with Id " + userId + " not found");
+    }
+
+    public void deleteUserByUserId(int userId) {
+        Users user = usersRepository.findUserByUserId(userId);
+        if (user != null) {
+            usersRepository.delete(user);
+        } else {
+            throw new UserNotFoundException("User with Id " + userId + " not found");
+        }
     }
 }
