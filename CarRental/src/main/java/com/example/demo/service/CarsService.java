@@ -5,19 +5,22 @@ import com.example.demo.entity.Bookings;
 import com.example.demo.entity.Cars;
 import com.example.demo.repository.CarsRepository;
 import com.example.demo.repository.UsersRepository;
-import mypackage.WebService1;
-import mypackage.WebService1Soap;
+import com.sun.xml.ws.api.message.Headers;
+import com.sun.xml.ws.developer.WSBindingProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import wsdl.ObjectFactory;
+import wsdl.TestService;
+import wsdl.UserCredentials;
+import wsdl.WebService1;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CarsService {
@@ -52,7 +55,20 @@ public class CarsService {
     }
 
     private BigDecimal convertCurrency(BigDecimal amount, String from, String to) {
-        mypackage.WebService1Soap service = new WebService1().getPort(WebService1Soap.class);
+
+        //mypackage.WebService1Soap service = new WebService1().getPort(WebService1Soap.class);
+
+        wsdl.TestService service = new WebService1().getPort(TestService.class);
+        WSBindingProvider bp = (WSBindingProvider)service;
+        wsdl.UserCredentials userCredentials = new UserCredentials();
+        userCredentials.setUsername("CarRental");
+        userCredentials.setPassword("carRental123");
+        //JAXBElement<UserCredentials> usercredentials = new ObjectFactory().createUserCredentials(userCredentials);
+
+        bp.setOutboundHeaders(
+                // Sets a simple string value as a header
+                Headers.create(new QName("UserCredentials"),userCredentials.toString())
+        );
         return service.convertCurrency(amount, from, to);
         //return BigDecimal.valueOf(50);
     }
