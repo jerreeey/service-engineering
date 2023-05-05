@@ -25,12 +25,8 @@ namespace CurrencyConverterWebServiceTests
         [TestCase(-2, 2.25, 1.5, -1.33)]
         public void ConvertCurrency_WhenValidValues_CalculateExchange(decimal amount, decimal fromRate, decimal toRate, decimal expected)
         {
-            // Arrange
-
-            // Act
             decimal actual = _currencyConverter.Convert(amount, fromRate, toRate);
 
-            // Assert
             Assert.That(actual, Is.EqualTo(expected).Within(0.01));
         }
 
@@ -43,14 +39,11 @@ namespace CurrencyConverterWebServiceTests
         public void ConvertCurrency_SwitchFromAndToRate_RevertsExchange(decimal amount, decimal fromRate, decimal toRate)
         {
 
-            // Arrange
             decimal expected = amount;
 
-            // Act
             decimal exchangedValue = _currencyConverter.Convert(amount, fromRate, toRate);
             decimal actual = _currencyConverter.Convert(exchangedValue, toRate, fromRate);
 
-            // Assert
             Assert.That(actual, Is.EqualTo(expected).Within(0.01));
 
         }
@@ -66,11 +59,8 @@ namespace CurrencyConverterWebServiceTests
         public void ConvertCurrency_WhenNegativeOrZeroRateGiven_ThrowInvalidDataException(decimal fromRate, decimal toRate)
         {
 
-            // Arrange
             decimal amount = 1;
-            // Act
 
-            // Assert
             Assert.Throws<InvalidDataException>(() => _currencyConverter.Convert(amount, fromRate, toRate));
 
         }

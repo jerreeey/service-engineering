@@ -66,6 +66,12 @@ namespace CurrencyConverterWebServiceTests
 
         public decimal GetRateForCurrency(string currency)
         {
+
+            if(currency == "EUR")
+            {
+                return 1;
+            }
+
             try
             {
                 return GetRates()[currency];
