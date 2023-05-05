@@ -64,7 +64,7 @@ public class CarsService {
         return date.before(startDate) || date.after(endDate);
     }
 
-    private BigDecimal convertCurrency(BigDecimal amount, String from, String to) throws JAXBException {
+    private BigDecimal convertCurrency(BigDecimal amount, String from, String to) {
 
         wsdl.TestService service = new WebService1().getPort(TestService.class);
         wsdl.UserCredentials userCredentials = new UserCredentials();
@@ -122,12 +122,7 @@ public class CarsService {
         bp.getRequestContext().put(BindingProvider.SOAPACTION_USE_PROPERTY, Boolean.TRUE);
         bp.getRequestContext().put(BindingProvider.SOAPACTION_URI_PROPERTY, "http://tempuri.org/ConvertCurrency");
 
-        String s = service.toString();
-
-        return service.convertCurrency(amount, "USD", "EUR");
-
-        //return service.convertCurrency(amount, from, to);
-        //return BigDecimal.valueOf(50);
+        return service.convertCurrency(amount, from, to);
     }
 
     private CarsDTO convertCarToCarDTO(Cars car, String currency) {
@@ -137,12 +132,7 @@ public class CarsService {
         carsDTO.setModel(car.getModel());
         carsDTO.setYear(car.getYear());
         carsDTO.setCurrency(currency);
-
-        try {
-            carsDTO.setDailyRate(convertCurrency(BigDecimal.valueOf(car.getDailyRate()), car.getCurrency(), currency));
-        } catch (Exception exception) {
-            var ex = exception;
-        }
+        carsDTO.setDailyRate(convertCurrency(BigDecimal.valueOf(car.getDailyRate()), car.getCurrency(), currency));
         return carsDTO;
     }
 
