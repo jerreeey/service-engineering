@@ -8,6 +8,7 @@
         <label for="password_login">Password</label>
         <input v-model="user.password" id="password_login" type="password">
         <button @click="login" id="btn_login" class="button button--primary button_login">Login</button>
+        <p class="error">{{errorMessage}}</p>
     </div>
 </div>
 </template>
@@ -20,26 +21,30 @@ import router from '../router/router.js'
 
 const user = reactive(new User('',''))
 const loading = ref(false)  
-const message = ref('')
+let errorMessage = ref("")
 const loggedIn = computed(() => {
     return store.state.auth.status.loggedIn
 })                    
 
 
 function login(){
+    try {
         if (user.email && user.password) {
             store.dispatch('auth/login', user).then(
                 () => {                    
                     router.push('/');
                 },
                 error => {
-                    this.message =
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString();
+                    errorMessage.value = "Login didn't work. Please try again!"
                 }
             );
+        } else {
+            errorMessage.value = "Form is not filled correctly"
         }
+    } catch {
+            errorMessage.value = "Login didn't work. Please try again!"
+    }
+    
 }
 
 </script>

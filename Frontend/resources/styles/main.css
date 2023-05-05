@@ -18,7 +18,7 @@
 @import 'modules/booking.css';
 @import 'modules/profile.css';
 @import 'modules/map.css';
-
+@import 'modules/error.css';
 /* last for specifity */
 @import 'modules/hacks.css';
 @import 'modules/stack.css';

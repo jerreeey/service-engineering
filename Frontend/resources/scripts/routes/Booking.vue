@@ -53,6 +53,7 @@
         <button class="button button--primary"  @click="getCars">Search</button>
     </div>
     </div>
+    <p class="error">{{errorMessage}}</p>
     <div :key="i" v-for="i in Math.ceil(cars.length / 3)" class="booking_row stack stack--row stack5">
         <div class="booking_container stack stack3 stack--column" :key="`car_${index}`" v-for="(car,index) in  cars.slice((i-1)*3, i*3)">
             <h2 class="h3">{{ car.make }} - {{ car.model }}</h2>
@@ -95,6 +96,7 @@ import store from '../store'
 import router from '../router/router.js'
 import {ref} from 'vue'
 
+let errorMessage = ref()
 let endDate = new Date("2023-12-23")
 let endDateFormatted = ref(endDate.toLocaleDateString('en-CA'))
 let hour = "10:00:00"
@@ -104,10 +106,20 @@ let currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
 let timeDiff = Math.abs(endDate.getTime() - currentDate.getTime());
 let diffDays = ref(Math.ceil(timeDiff / (1000 * 3600 * 24))); 
 
-let cars = ref(await CarService.getAvailableCars(currentDateFormatted.value, currentTime, endDateFormatted.value, hour, "USD").then(response => {
-    return response
-})
-)
+let cars = ref("")
+try{
+    cars.value = await CarService.getAvailableCars(currentDateFormatted.value, currentTime, endDateFormatted.value, hour, "USD").then(response => {
+        return response
+    })
+    if(cars.value ==""){
+        errorMessage.value = "No cars available for the selected parameters."
+    }else{
+        errorMessage.value =""
+    }
+}catch{
+    errorMessage.value = "Car service isn't available. Please try again!"
+}
+
 
 let userid = store.state.auth.user.userDTO.userId;
 
@@ -122,25 +134,44 @@ async function getCars(){
     let timeDiffNew = Math.abs(returnDate.getTime() - pickUpDate.getTime());
     diffDays = Math.ceil(timeDiffNew / (1000 * 3600 * 24))
     
-    cars.value = await CarService.getAvailableCars(pickUpDateFormatted, pickUpHour, returnDateFormatted, returnHour, currency).then(response => {
-        return response
-    })
+    try{
+        cars.value = await CarService.getAvailableCars(pickUpDateFormatted, pickUpHour, returnDateFormatted, returnHour, currency).then(response => {
+            return response
+        })
 
-    currentDateFormatted.value = pickUpDateFormatted
-    endDateFormatted.value = returnDateFormatted
-    currentTime = pickUpHour
-    hour = returnHour
+        if(cars.value ==""){
+            errorMessage.value = "No cars available for the selected parameters."
+        }else{
+            errorMessage.value =""
+        }
+
+        currentDateFormatted.value = pickUpDateFormatted
+        endDateFormatted.value = returnDateFormatted
+        currentTime = pickUpHour
+        hour = returnHour
+
+        errorMessage.value = ""
+    }catch{
+        errorMessage.value = "Car service isn't available. Please try again!"
+    }
 }
+
 async function addBooking(carid){
     let pickUpDate = currentDateFormatted.value
     let pickUpHour = currentTime
     let returnDate = endDateFormatted.value
     let returnHour = hour
 
-    await BookingService.addBooking(carid, userid, pickUpDate,pickUpHour,returnDate,returnHour, false).then(response => {
+    try {
+        await BookingService.addBooking(carid, userid, pickUpDate,pickUpHour,returnDate,returnHour, false).then(response => {
         if (response == 200){
             router.push('/overview')
         }
+        errorMessage.value =""
     })
+    } catch (error) {
+        errorMessage.value ="Booking didn't work. Please try again"
+    }
+
 }
 </script>
