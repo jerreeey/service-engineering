@@ -86,6 +86,7 @@
   --color-headline: var(--color-declaration-brand);
   --color-navigation: var(--color-declaration-brand);
   --color-button-primary: var(--color-declaration-brand);
+  --color-error: var(--color-declaration-red);
   --color-button-delete: var(--color-declaration-red);
 
   /* fonts */

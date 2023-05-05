@@ -10,7 +10,7 @@
             <label for="password_register-repeat">Repeat Password</label>
             <input id="password_register-repeat" type="password">
             <button id="btn_register"  @click="register" class="button button--primary button_login">Register</button>
-            <p>{{error}}</p>
+            <p class="error">{{errorMessage}}</p>
         </div>
     </div>
 </template>
@@ -20,7 +20,7 @@ import { ref ,computed, created, reactive } from 'vue'
 import User from '../models/user';
 import store from '../store'
 import router from '../router/router.js'
-let error = ref("")
+let errorMessage = ref("")
 const user = new User('','')
 function register(){
     let email = document.getElementById('email_register').value
@@ -30,17 +30,22 @@ function register(){
     if (email != "" && password != "" &&  repeatedPassword != "" && password == repeatedPassword) {
         user.email = email
         user.password = password
-        store.dispatch('auth/register', user).then(
-            () => {
-                error.value = ""
-                router.push('/login');
-            },
-            error => {
-                error.value = "Register didn't work"
-            }
-        );
+        try{
+            store.dispatch('auth/register', user).then(
+                () => {
+                    errorMessage.value = ""
+                    router.push('/login');
+                },
+                error => {
+                    errorMessage.value = "Register didn't work"
+                }
+            );
+        }catch{
+            errorMessage.value = "Register didn't work"
+        }
+
     } else {
-        error.value = "Form is not filled correctly"
+        errorMessage.value = "Form is not filled correctly"
     }
 
 }

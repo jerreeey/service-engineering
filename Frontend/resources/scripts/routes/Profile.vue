@@ -26,6 +26,7 @@
     </div>
     <button class="button button--delete" @click="deleteUser()">Delete account</button>
 </div>
+<p class="error">{{errorMessage}}</p>
 </div>
 </template>
 
@@ -33,28 +34,52 @@
 import {ref} from 'vue'
 import userService from '../services/user.service'
 let user = ref(JSON.parse(localStorage.getItem('user')).userDTO)
-console.log(user.value)
-
+let errorMessage = ref()
 async function changePassword(){
     let newPassword = document.getElementById('edit_password')
-    return await userService.changePassword(user.value, newPassword).then(response => {        
-        user.value = JSON.parse(localStorage.getItem('user')).userDTO
-        document.getElementById('edit_password').value = ""
-        document.getElementById('edit_repeatPassword').value = ""
-    })
+    let repeatedPassword = document.getElementById('edit_repeatPassword')
+    try{
+        if(newPassword != "" && new newPassword == repeatedPassword){
+            return await userService.changePassword(user.value, newPassword).then(response => {        
+                user.value = JSON.parse(localStorage.getItem('user')).userDTO
+                document.getElementById('edit_password').value = ""
+                document.getElementById('edit_repeatPassword').value = ""
+                errorMessage.value =""
+            })
+        }else{
+            errorMessage.value = "Passwords don't match"
+        }
+    }catch{
+        errorMessage.value = "Password could not be changed. Please try agein!"
+    }
+
 }
 
 async function changeEmail(){
     let newEmail = document.getElementById('edit_email').value
-    return await userService.changeEmail(user.value, newEmail).then(response => {
+    try{
+        if(newEmail != ""){
+            return await userService.changeEmail(user.value, newEmail).then(response => {
+                user.value = JSON.parse(localStorage.getItem('user')).userDTO
+                document.getElementById('edit_email').value = ""
+                errorMessage.value =""
+            })
+        }
 
-        user.value = JSON.parse(localStorage.getItem('user')).userDTO
-        document.getElementById('edit_email').value = ""
-    })
+    }catch{
+        errorMessage.value = "Email could not be changed. Please try agein!"
+    }
+
 }
 
 async function deleteUser(){
-    return await userService.delete(user.value).then(response => {})
+    try{
+        return await userService.delete(user.value).then(response => {
+            errorMessage.value =""
+        })
+    }catch{
+        errorMessage.value = "User could not be deleted. Please try agein!"
+    }
 }
 
 </script>
