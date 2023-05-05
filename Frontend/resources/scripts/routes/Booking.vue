@@ -16,13 +16,46 @@
             <label class="stack">Return time
                 <input id="returnTime" type="time">
             </label>
+            <label class="stack">Currency
+                <select id="currency">
+                    <option>USD</option>
+                    <option>JPY</option>
+                    <option>BGN</option>
+                    <option>CZK</option>
+                    <option>DKK</option>
+                    <option>EUR</option>
+                    <option>GBP</option>
+                    <option>HUF</option>
+                    <option>PLN</option>
+                    <option>RON</option>
+                    <option>SEK</option>
+                    <option>CHF</option>
+                    <option>ISK</option>
+                    <option>NOK</option>
+                    <option>TRY</option>
+                    <option>BRL</option>
+                    <option>CAD</option>
+                    <option>CNY</option>
+                    <option>HKD</option>
+                    <option>ILS</option>
+                    <option>INR</option>
+                    <option>KRW</option>
+                    <option>MXN</option>
+                    <option>MYR</option>
+                    <option>NZD</option>
+                    <option>PHP</option>
+                    <option>SGD</option>
+                    <option>THB</option>
+                    <option>ZAR</option>
+                </select>
+            </label>
         </div>
-        <button class="button button--primary" type="text">Search</button>
+        <button class="button button--primary"  @click="getCars">Search</button>
     </div>
     </div>
     <div :key="i" v-for="i in Math.ceil(cars.length / 3)" class="booking_row stack stack--row stack5">
         <div class="booking_container stack stack3 stack--column" :key="`car_${index}`" v-for="(car,index) in  cars.slice((i-1)*3, i*3)">
-            <h2 class="h3">{{ car.name }} - {{ car.model }}</h2>
+            <h2 class="h3">{{ car.make }} - {{ car.model }}</h2>
             <div class="stack8 stack">
             <div class="stack">
                 <div class="stack stack--row stack--justify-space-between">
@@ -32,76 +65,82 @@
                 <div class="stack stack--row stack--justify-space-between">
                     <span>Price per day:</span>
                     <div>
-                        <span class="price">{{ car.price }}</span>
-                        <select name="currency">
-                            <option>USD</option>
-                        </select>
+                        <span>{{ car.dailyRate }} {{ car.currency }}</span>
                     </div>
                 </div>
             </div>
             <div class="booking_summary stack">
                 <div class="stack stack--row stack--justify-space-between">
                     <span class="u--text-600">Date</span>
-                    <span>28.03.2023 - 31.03.2023</span>
+                    <span>{{currentDateFormatted}} - {{endDateFormatted}}</span>
                 </div>
                 <div class="stack stack--row stack--justify-space-between">
                     <span class="u--text-600">Total price:</span>
                     <div>
-                        <span>30 USD</span>
+                        <span>{{ car.dailyRate * diffDays }} {{ car.currency }}</span>
                     </div>
                 </div>
             </div>
         </div>
-            <button class="button button--primary" type="text">Book</button>
+            <button class="button button--primary" v-bind:value="car.carId" @click="addBooking(car.carId)" type="text">Book</button>
         </div>
     </div>
 </div>
 </template>
 
 <script setup>
-import {ref} from "vue"
-const cars = ref([
-    {
-        name: "VW",
-        model: "Golf",
-        price: 20,
-        year: "2010",
+import CarService from "../services/car.service.js"
+import BookingService from "../services/booking.service.js"
+import store from '../store'
+import router from '../router/router.js'
+import {ref} from 'vue'
 
-    },
-    {
-        name: "Ferrari",
-        model: "Golf",
-        price: 20,
-        year: "2010",
+let endDate = new Date("2023-12-23")
+let endDateFormatted = ref(endDate.toLocaleDateString('en-CA'))
+let hour = "10:00:00"
+let currentDate = new Date()
+let currentDateFormatted = ref(currentDate.toLocaleDateString('en-CA'))
+let currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
+let timeDiff = Math.abs(endDate.getTime() - currentDate.getTime());
+let diffDays = ref(Math.ceil(timeDiff / (1000 * 3600 * 24))); 
 
-    },
-    {
-        name: "Toyota",
-        model: "Golf",
-        price: 20,
-        year: "2010",
+let cars = ref(await CarService.getAvailableCars(currentDateFormatted.value, currentTime, endDateFormatted.value, hour, "USD").then(response => {
+    return response
+})
+)
 
-    },
-    {
-        name: "Toyota",
-        model: "Golf",
-        price: 20,
-        year: "2010",
+let userid = store.state.auth.user.userDTO.userId;
 
-    },
-    {
-        name: "Toyota",
-        model: "Golf",
-        price: 20,
-        year: "2010",
+async function getCars(){
+    let pickUpDate = new Date(document.getElementById('pickUpDate').value)
+    let pickUpDateFormatted = pickUpDate.toLocaleDateString("en-CA")
+    let pickUpHour = document.getElementById('pickUpTime').value + ":00"
+    let returnDate = new Date(document.getElementById('returnDate').value)
+    let returnDateFormatted = returnDate.toLocaleDateString("en-CA")
+    let returnHour = document.getElementById('returnTime').value +":00"
+    let currency = document.getElementById('currency').value
+    let timeDiffNew = Math.abs(returnDate.getTime() - pickUpDate.getTime());
+    diffDays = Math.ceil(timeDiffNew / (1000 * 3600 * 24))
+    
+    cars.value = await CarService.getAvailableCars(pickUpDateFormatted, pickUpHour, returnDateFormatted, returnHour, currency).then(response => {
+        return response
+    })
 
-    },
-    {
-        name: "Toyota",
-        model: "Golf",
-        price: 20,
-        year: "2010",
+    currentDateFormatted.value = pickUpDateFormatted
+    endDateFormatted.value = returnDateFormatted
+    currentTime = pickUpHour
+    hour = returnHour
+}
+async function addBooking(carid){
+    let pickUpDate = currentDateFormatted.value
+    let pickUpHour = currentTime
+    let returnDate = endDateFormatted.value
+    let returnHour = hour
 
-    }
-])
+    await BookingService.addBooking(carid, userid, pickUpDate,pickUpHour,returnDate,returnHour, false).then(response => {
+        if (response == 200){
+            router.push('/overview')
+        }
+    })
+}
 </script>

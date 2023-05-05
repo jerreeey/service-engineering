@@ -1,4 +1,5 @@
 <template>
+
     <div class="navigation">
     <nav class="spacer stack stack--row stack--justify-space-between">
         <ul class="u--list-style-none stack stack--row stack--justify-space-between stack6">
@@ -15,12 +16,27 @@
     </nav>
     </div>
     <main>
+        <Suspense>
         <router-view></router-view>
+    </Suspense>
     </main>
+
 </template>
 
 <script setup>
-import {ref} from "vue"
-const loggedIn = ref(true)
+import {ref, computed, Suspense} from "vue"
+import store from "./store"
+import router from "./router/router.js"
+
+const loggedIn = computed(() => {
+    if(localStorage.getItem('token')){
+        store.state.auth.status.loggedIn = true
+    }
+    return store.state.auth.status.loggedIn
+})
+function logout(){
+      store.dispatch('auth/logout');
+      router.push('/login');
+}
 </script>
 

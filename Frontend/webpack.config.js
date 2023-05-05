@@ -2,6 +2,7 @@
 
 const { VueLoaderPlugin } = require('vue-loader')
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyPlugin = require("copy-webpack-plugin")
@@ -26,6 +27,15 @@ module.exports = function (env, argv) {
       hash: true,
       modules: false,
       entrypoints: false
+    },
+    devServer: {
+      static: {
+        directory: path.join(__dirname, 'dist'),
+      },
+      compress: true,
+      port: 8080,
+      historyApiFallback: true,
+      allowedHosts: "all"
     },
     entry: {
       'main': path.join(__dirname, 'resources/scripts/index.js'),
@@ -103,6 +113,11 @@ module.exports = function (env, argv) {
         filename: '[name].css',
         chunkFilename: '[name].[contenthash].css'
       }),
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, 'index.html'),
+        filename: 'index.html',
+        inject: true,
+      })
       // new CopyPlugin({
       //   patterns: [
       //     { from: 'resources/static', to: 'static' }
