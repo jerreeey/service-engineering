@@ -17,6 +17,7 @@ import wsdl.WebService1;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,12 +63,13 @@ public class CarsService {
         wsdl.UserCredentials userCredentials = new UserCredentials();
         userCredentials.setUsername("CarRental");
         userCredentials.setPassword("carRental123");
-        //JAXBElement<UserCredentials> usercredentials = new ObjectFactory().createUserCredentials(userCredentials);
-        WSBindingProvider bp = (WSBindingProvider)service;
-        bp.setOutboundHeaders(
-                // Sets a simple string value as a header
-                Headers.create(new QName("UserCredentials"),userCredentials.toString())
-        );
+        JAXBElement<UserCredentials> usercredentials = new ObjectFactory().createUserCredentials(userCredentials);
+        Map requestCtx = ((BindingProvider) service).getRequestContext();
+        requestCtx.put(UserCredentials.class.getName(), userCredentials);
+        requestCtx.put(BindingProvider.USERNAME_PROPERTY, "CarRental");
+        requestCtx.put(BindingProvider.PASSWORD_PROPERTY, "carRental123");
+        String productionUrl = "https://currencyconvertercarrental.azurewebsites.net/CurrencyConverterWS.asmx?wsdl";
+        requestCtx.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, productionUrl);
         return service.convertCurrency(amount, from, to);
         //return BigDecimal.valueOf(50);
     }
