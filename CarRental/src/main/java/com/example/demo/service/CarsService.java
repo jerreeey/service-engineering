@@ -15,8 +15,18 @@ import wsdl.TestService;
 import wsdl.UserCredentials;
 import wsdl.WebService1;
 
+
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
+import javax.xml.soap.*;
+import javax.xml.ws.BindingProvider;
+import javax.xml.ws.handler.Handler;
+import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.handler.soap.SOAPHandler;
+import javax.xml.ws.handler.soap.SOAPMessageContext;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,21 +64,69 @@ public class CarsService {
         return date.before(startDate) || date.after(endDate);
     }
 
-    private BigDecimal convertCurrency(BigDecimal amount, String from, String to) {
-
-        //mypackage.WebService1Soap service = new WebService1().getPort(WebService1Soap.class);
+    private BigDecimal convertCurrency(BigDecimal amount, String from, String to) throws JAXBException {
 
         wsdl.TestService service = new WebService1().getPort(TestService.class);
         wsdl.UserCredentials userCredentials = new UserCredentials();
         userCredentials.setUsername("CarRental");
         userCredentials.setPassword("carRental123");
-        //JAXBElement<UserCredentials> usercredentials = new ObjectFactory().createUserCredentials(userCredentials);
-        WSBindingProvider bp = (WSBindingProvider)service;
-        bp.setOutboundHeaders(
-                // Sets a simple string value as a header
-                Headers.create(new QName("UserCredentials"),userCredentials.toString())
-        );
-        return service.convertCurrency(amount, from, to);
+
+        WSBindingProvider bp = (WSBindingProvider) service;
+        List<Handler> handlerChain = bp.getBinding().getHandlerChain();
+        handlerChain.add(new SOAPHandler<SOAPMessageContext>() {
+            @Override
+            public Set<QName> getHeaders() {
+                // Liste der Header-Namen, die dieser Handler bearbeitet
+                return Collections.singleton(new QName("http://tempuri.org/", "UserCredentials"));
+            }
+
+            @Override
+            public boolean handleMessage(SOAPMessageContext context) {
+                Boolean outboundProperty = (Boolean)
+                        context.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
+                if (outboundProperty.booleanValue()) {
+                    try {
+                        SOAPMessage soapMessage = context.getMessage();
+                        SOAPHeader soapHeader = soapMessage.getSOAPHeader();
+                        if (soapHeader == null) {
+                            soapHeader = soapMessage.getSOAPPart().getEnvelope().addHeader();
+                        }
+                        QName userCredentialsQName = new QName("http://tempuri.org/", "UserCredentials");
+                        SOAPHeaderElement userCredentialsHeader = soapHeader.addHeaderElement(userCredentialsQName);
+                        SOAPElement username = userCredentialsHeader.addChildElement("username");
+                        username.setTextContent(userCredentials.getUsername());
+                        SOAPElement password = userCredentialsHeader.addChildElement("password");
+                        password.setTextContent(userCredentials.getPassword());
+
+                    } catch (SOAPException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return true;
+            }
+
+            @Override
+            public boolean handleFault(SOAPMessageContext context) {
+                // Wenn ein Fehler auftritt, wird diese Methode aufgerufen
+                return true;
+            }
+
+            @Override
+            public void close(MessageContext context) {
+                // Diese Methode wird aufgerufen, wenn der Handler geschlossen wird
+            }
+        });
+        bp.getBinding().setHandlerChain(handlerChain);
+
+        // HTTP Header hinzufügen
+        bp.getRequestContext().put(BindingProvider.SOAPACTION_USE_PROPERTY, Boolean.TRUE);
+        bp.getRequestContext().put(BindingProvider.SOAPACTION_URI_PROPERTY, "http://tempuri.org/ConvertCurrency");
+
+        String s = service.toString();
+
+        return service.convertCurrency(amount, "USD", "EUR");
+
+        //return service.convertCurrency(amount, from, to);
         //return BigDecimal.valueOf(50);
     }
 
@@ -79,7 +137,12 @@ public class CarsService {
         carsDTO.setModel(car.getModel());
         carsDTO.setYear(car.getYear());
         carsDTO.setCurrency(currency);
-        carsDTO.setDailyRate(convertCurrency(BigDecimal.valueOf(car.getDailyRate()), car.getCurrency(), currency));
+
+        try {
+            carsDTO.setDailyRate(convertCurrency(BigDecimal.valueOf(car.getDailyRate()), car.getCurrency(), currency));
+        } catch (Exception exception) {
+            var ex = exception;
+        }
         return carsDTO;
     }
 
