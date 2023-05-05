@@ -59,12 +59,11 @@ public class CarsService {
         //mypackage.WebService1Soap service = new WebService1().getPort(WebService1Soap.class);
 
         wsdl.TestService service = new WebService1().getPort(TestService.class);
-        WSBindingProvider bp = (WSBindingProvider)service;
         wsdl.UserCredentials userCredentials = new UserCredentials();
         userCredentials.setUsername("CarRental");
         userCredentials.setPassword("carRental123");
         //JAXBElement<UserCredentials> usercredentials = new ObjectFactory().createUserCredentials(userCredentials);
-
+        WSBindingProvider bp = (WSBindingProvider)service;
         bp.setOutboundHeaders(
                 // Sets a simple string value as a header
                 Headers.create(new QName("UserCredentials"),userCredentials.toString())
