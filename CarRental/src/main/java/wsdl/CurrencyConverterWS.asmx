@@ -18,6 +18,14 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="UserCredentials" type="tns:UserCredentials" />
+      <s:complexType name="UserCredentials">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="ConvertCurrencySoapIn">
@@ -26,30 +34,35 @@
   <wsdl:message name="ConvertCurrencySoapOut">
     <wsdl:part name="parameters" element="tns:ConvertCurrencyResponse" />
   </wsdl:message>
-  <wsdl:portType name="WebService1Soap">
+  <wsdl:message name="ConvertCurrencyUserCredentials">
+    <wsdl:part name="UserCredentials" element="tns:UserCredentials" />
+  </wsdl:message>
+  <wsdl:portType name="TestService">
     <wsdl:operation name="ConvertCurrency">
       <wsdl:input message="tns:ConvertCurrencySoapIn" />
       <wsdl:output message="tns:ConvertCurrencySoapOut" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="WebService1Soap" type="tns:WebService1Soap">
+  <wsdl:binding name="TestService" type="tns:TestService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="ConvertCurrency">
       <soap:operation soapAction="http://tempuri.org/ConvertCurrency" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:ConvertCurrencyUserCredentials" part="UserCredentials" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:binding name="WebService1Soap12" type="tns:WebService1Soap">
+  <wsdl:binding name="TestService1" type="tns:TestService">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="ConvertCurrency">
       <soap12:operation soapAction="http://tempuri.org/ConvertCurrency" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:ConvertCurrencyUserCredentials" part="UserCredentials" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -57,10 +70,10 @@
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="WebService1">
-    <wsdl:port name="WebService1Soap" binding="tns:WebService1Soap">
+    <wsdl:port name="TestService" binding="tns:TestService">
       <soap:address location="https://currencyconvertercarrental.azurewebsites.net/CurrencyConverterWS.asmx" />
     </wsdl:port>
-    <wsdl:port name="WebService1Soap12" binding="tns:WebService1Soap12">
+    <wsdl:port name="TestService1" binding="tns:TestService1">
       <soap12:address location="https://currencyconvertercarrental.azurewebsites.net/CurrencyConverterWS.asmx" />
     </wsdl:port>
   </wsdl:service>

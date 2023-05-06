@@ -1,5 +1,5 @@
 
-package mypackage;
+package wsdl;
 
 import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlAccessType;

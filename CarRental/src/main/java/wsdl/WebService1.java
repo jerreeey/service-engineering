@@ -1,5 +1,5 @@
 
-package mypackage;
+package wsdl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -65,11 +65,11 @@ public class WebService1
     /**
      * 
      * @return
-     *     returns WebService1Soap
+     *     returns TestService
      */
-    @WebEndpoint(name = "WebService1Soap")
-    public WebService1Soap getWebService1Soap() {
-        return super.getPort(new QName("http://tempuri.org/", "WebService1Soap"), WebService1Soap.class);
+    @WebEndpoint(name = "TestService")
+    public TestService getTestService() {
+        return super.getPort(new QName("http://tempuri.org/", "TestService"), TestService.class);
     }
 
     /**
@@ -77,21 +77,21 @@ public class WebService1
      * @param features
      *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return
-     *     returns WebService1Soap
+     *     returns TestService
      */
-    @WebEndpoint(name = "WebService1Soap")
-    public WebService1Soap getWebService1Soap(WebServiceFeature... features) {
-        return super.getPort(new QName("http://tempuri.org/", "WebService1Soap"), WebService1Soap.class, features);
+    @WebEndpoint(name = "TestService")
+    public TestService getTestService(WebServiceFeature... features) {
+        return super.getPort(new QName("http://tempuri.org/", "TestService"), TestService.class, features);
     }
 
     /**
      * 
      * @return
-     *     returns WebService1Soap
+     *     returns TestService
      */
-    @WebEndpoint(name = "WebService1Soap12")
-    public WebService1Soap getWebService1Soap12() {
-        return super.getPort(new QName("http://tempuri.org/", "WebService1Soap12"), WebService1Soap.class);
+    @WebEndpoint(name = "TestService1")
+    public TestService getTestService1() {
+        return super.getPort(new QName("http://tempuri.org/", "TestService1"), TestService.class);
     }
 
     /**
@@ -99,11 +99,11 @@ public class WebService1
      * @param features
      *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return
-     *     returns WebService1Soap
+     *     returns TestService
      */
-    @WebEndpoint(name = "WebService1Soap12")
-    public WebService1Soap getWebService1Soap12(WebServiceFeature... features) {
-        return super.getPort(new QName("http://tempuri.org/", "WebService1Soap12"), WebService1Soap.class, features);
+    @WebEndpoint(name = "TestService1")
+    public TestService getTestService1(WebServiceFeature... features) {
+        return super.getPort(new QName("http://tempuri.org/", "TestService1"), TestService.class, features);
     }
 
     private static URL __getWsdlLocation() {

@@ -1,5 +1,5 @@
 
-package mypackage;
+package wsdl;
 
 import java.math.BigDecimal;
 import javax.jws.WebMethod;
@@ -17,11 +17,11 @@ import javax.xml.ws.ResponseWrapper;
  * Generated source version: 2.2
  * 
  */
-@WebService(name = "WebService1Soap", targetNamespace = "http://tempuri.org/")
+@WebService(name = "TestService", targetNamespace = "http://tempuri.org/")
 @XmlSeeAlso({
     ObjectFactory.class
 })
-public interface WebService1Soap {
+public interface TestService {
 
 
     /**
@@ -34,8 +34,8 @@ public interface WebService1Soap {
      */
     @WebMethod(operationName = "ConvertCurrency", action = "http://tempuri.org/ConvertCurrency")
     @WebResult(name = "ConvertCurrencyResult", targetNamespace = "http://tempuri.org/")
-    @RequestWrapper(localName = "ConvertCurrency", targetNamespace = "http://tempuri.org/", className = "mypackage.ConvertCurrency")
-    @ResponseWrapper(localName = "ConvertCurrencyResponse", targetNamespace = "http://tempuri.org/", className = "mypackage.ConvertCurrencyResponse")
+    @RequestWrapper(localName = "ConvertCurrency", targetNamespace = "http://tempuri.org/", className = "wsdl.ConvertCurrency")
+    @ResponseWrapper(localName = "ConvertCurrencyResponse", targetNamespace = "http://tempuri.org/", className = "wsdl.ConvertCurrencyResponse")
     public BigDecimal convertCurrency(
         @WebParam(name = "amount", targetNamespace = "http://tempuri.org/")
         BigDecimal amount,
