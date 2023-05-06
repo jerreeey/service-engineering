@@ -60,9 +60,11 @@ public class CarsService {
         return carsDTOS;
     }
 
-    private boolean isNotInRange(Date date, Date startDate, Date endDate) {
-        return date.before(startDate) || date.after(endDate);
+    public boolean isNotInRange(Date date, Date startdate, Date enddate) {
+        return date.after(enddate) || date.before(startdate);
     }
+
+
 
     private BigDecimal convertCurrency(BigDecimal amount, String from, String to) {
 
