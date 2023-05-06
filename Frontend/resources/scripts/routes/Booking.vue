@@ -133,26 +133,32 @@ async function getCars(){
     let currency = document.getElementById('currency').value
     let timeDiffNew = Math.abs(returnDate.getTime() - pickUpDate.getTime());
     diffDays = Math.ceil(timeDiffNew / (1000 * 3600 * 24))
-    
-    try{
-        cars.value = await CarService.getAvailableCars(pickUpDateFormatted, pickUpHour, returnDateFormatted, returnHour, currency).then(response => {
-            return response
-        })
 
-        if(cars.value ==""){
-            errorMessage.value = "No cars available for the selected parameters."
-        }else{
-            errorMessage.value =""
+
+    if(!isNaN(pickUpDate) && pickUpHour != ":00" && !isNaN(returnDate) && returnHour !=":00" && currency != ""){
+        try{
+            cars.value = await CarService.getAvailableCars(pickUpDateFormatted, pickUpHour, returnDateFormatted, returnHour, currency).then(response => {
+                return response
+            })
+
+            if(cars.value ==""){
+                errorMessage.value = "No cars available for the selected parameters."
+            }else{
+                errorMessage.value =""
+            }
+
+            currentDateFormatted.value = pickUpDateFormatted
+            endDateFormatted.value = returnDateFormatted
+            currentTime = pickUpHour
+            hour = returnHour
+
+            errorMessage.value = ""
+        }catch{
+            errorMessage.value = "Car service isn't available. Please try again!"
         }
+    }else{
 
-        currentDateFormatted.value = pickUpDateFormatted
-        endDateFormatted.value = returnDateFormatted
-        currentTime = pickUpHour
-        hour = returnHour
-
-        errorMessage.value = ""
-    }catch{
-        errorMessage.value = "Car service isn't available. Please try again!"
+        errorMessage.value = "Please use all input fields."
     }
 }
 
