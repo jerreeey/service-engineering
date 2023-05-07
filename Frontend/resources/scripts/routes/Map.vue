@@ -21,7 +21,7 @@
 let map
 
  map = document.createElement('script')
-      map.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCJxNb8ufBbCV4wElVbD43hsajpDj_qB0o&callback=initMap&v=weekly')
+      map.setAttribute('src', '')
       document.body.appendChild(map)
 
 function initMap() {
